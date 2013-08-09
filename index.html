@@ -28,11 +28,9 @@
       </header>
       <section>
         <blockquote>
-<p>webmagic是一个开源的Java垂直爬虫框架，目标是简化爬虫的开发流程，让开发者专注于逻辑功能的开发。webmagic的核心非常简单，但是覆盖爬虫的整个流程，也是很好的学习爬虫开发的材料。</p>
+<p>webmagic是一个开源的Java垂直爬虫框架，目标是简化爬虫的开发流程，让开发者专注于逻辑功能的开发。webmagic的核心非常简单，但是覆盖爬虫的整个流程，也是很好的学习爬虫开发的材料。作者曾经进行过一年的垂直爬虫的开发，webmagic就是为了解决爬虫开发的一些重复劳动而产生的框架。</p>
 
 <p>web爬虫是一种技术，webmagic致力于将这种技术的实现成本降低，但是出于对资源提供者的尊重，webmagic不会做反封锁的事情，包括：验证码破解、代理切换、自动登录、抓取静态资源等。</p>
-
-<p>作者黄亿华(<a href="code4crafter@gmail.com">code4crafter@gmail.com</a>)目前就职于大众点评，曾经在前公司进行过一年的垂直爬虫的开发，webmagic就是为了解决爬虫开发的一些重复劳动而产生的框架。</p>
 
 <p>webmagic的架构和设计参考了以下两个项目，感谢以下两个项目的作者：</p>
 
@@ -291,7 +289,7 @@ List&lt;String&gt; links = page.getHtml()
 <li>
 <p>SeleniumDownloader</p>
 
-<p>对于一些Javascript动态加载的网页，仅仅使用http模拟下载工具，并不能取到页面的内容。这方面的思路有两种：一种是抽丝剥茧，分析js的逻辑，再用爬虫去重现它；另一种就是：内置一个浏览器，直接获取最后加载完的页面。**webmagic-selenium**包中整合了Selenium到SeleniumDownloader，可以直接进行动态加载页面的抓取。</p>
+<p>对于一些Javascript动态加载的网页，仅仅使用http模拟下载工具，并不能取到页面的内容。这方面的思路有两种：一种是抽丝剥茧，分析js的逻辑，再用爬虫去重现它；另一种就是：内置一个浏览器，直接获取最后加载完的页面。**webmagic-selenium**包中整合了Selenium到SeleniumDownloader，可以直接进行动态加载页面的抓取。使用selenium需要安装一些native的工具，具体步骤可以参考作者的博文<a href="http://my.oschina.net/flashsword/blog/147334">使用Selenium来抓取动态加载的页面</a></p>
 </li>
 </ul><h4>
 <a name="schedulerurl%E7%AE%A1%E7%90%86" class="anchor" href="#schedulerurl%E7%AE%A1%E7%90%86"><span class="octicon octicon-link"></span></a>Scheduler(URL管理)</h4>
@@ -478,12 +476,17 @@ public class OschinaBlog {
 <p>处理单项数据分页(例如单条新闻多个页面)是爬虫一个比较头疼的问题。webmagic目前对于分页的解决方案是：在注解模式下，Model通过实现**PagedModel**接口，并引入PagedPipeline作为第一个Pipeline来实现。具体可以参考webmagic-samples中抓取网易新闻的代码：**us.codecraft.webmagic.model.samples.News163**。</p>
 
 <p>关于分页，这里有一篇对于webmagic分页实现的详细说明的文章<a href="http://my.oschina.net/flashsword/blog/150039">关于爬虫实现分页的一些思考</a>。
-目前分页功能还没有分布式实现，如果实现RedisScheduler进行分布式爬取，请不要使用分页功能。</p>
+目前分页功能还没有分布式实现，如果使用RedisScheduler进行分布式爬取，请不要使用分页功能。</p>
 </li>
 </ul><h3>
 <a name="%E5%88%86%E5%B8%83%E5%BC%8F" class="anchor" href="#%E5%88%86%E5%B8%83%E5%BC%8F"><span class="octicon octicon-link"></span></a>分布式</h3>
 
 <p>webmagic-extension中，通过redis来管理URL，达到分布式的效果。但是对于分布式爬虫，仅仅程序能够分布式运行，还满足不了大规模抓取的需要，webmagic可能后期会加入一些任务管理和监控的功能，也欢迎各位用户为webmagic提交代码，做出贡献。</p>
+
+<h3>
+<a name="%E6%9B%B4%E8%BF%9B%E4%B8%80%E6%AD%A5" class="anchor" href="#%E6%9B%B4%E8%BF%9B%E4%B8%80%E6%AD%A5"><span class="octicon octicon-link"></span></a>更进一步</h3>
+
+<p>如果这篇文档仍然满足不了你的需要，你可以阅读webmagic的<a href="http://code4craft.github.io/webmagic/docs/">Javadoc</a>，或者直接阅读源码。</p>
       </section>
     </div>
     <footer>
