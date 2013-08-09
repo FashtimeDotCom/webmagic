@@ -180,7 +180,7 @@ public class OschinaBlog {
 
 <p>这个例子定义了一个Model类，Model类的字段'title'、'content'、'tags'均为要抽取的属性。这个类在Pipeline里是可以复用的。</p>
 
-<p>注解的详细使用方式见<a href="##%E6%B3%A8%E8%A7%A3%E6%A8%A1%E5%9D%97">webmagic-extension注解模块</a></p>
+<p>注解的详细使用方式见后文中得webmagic-extension注解模块。</p>
 
 <div></div>
 
@@ -377,7 +377,27 @@ List&lt;String&gt; links = page.getHtml()
 <li>抓取结果没有对应Model，并不符合Java程序开发习惯，与一些框架也无法很好整合。</li>
 </ul><p>注解的核心是Model类，本身是一个POJO，这个Model类用于传递、保存页面最终抓取结果数据。注解方式直接将抽取与数据绑定，以便于编写和维护。</p>
 
-<p>注解方式其实也是通过一个PageProcessor的实现--ModelPageProcessor完成，因此对webmagic-core代码没有任何影响。</p>
+<p>注解方式其实也是通过一个PageProcessor的实现--ModelPageProcessor完成，因此对webmagic-core代码没有任何影响。仍然以抓取OschinaBlog的程序为例：</p>
+
+<pre><code>@TargetUrl("http://my.oschina.net/flashsword/blog/\\d+")
+public class OschinaBlog {
+
+    @ExtractBy("//title")
+    private String title;
+
+    @ExtractBy(value = "div.BlogContent",type = ExtractBy.Type.Css)
+    private String content;
+
+    @ExtractBy(value = "//div[@class='BlogTags']/a/text()", multi = true)
+    private List&lt;String&gt; tags;
+
+    public static void main(String[] args) {
+        OOSpider.create(
+            Site.me().addStartUrl("http://my.oschina.net/flashsword/blog"),
+            new ConsolePageModelPipeline(), OschinaBlog.class).run();
+    }
+}
+</code></pre>
 
 <p>注解部分包括以下内容：</p>
 
@@ -398,28 +418,28 @@ List&lt;String&gt; links = page.getHtml()
 
 <ul>
 <li>
-<h5>
-<a name="%E7%94%A8%E4%BA%8E%E5%AD%97%E6%AE%B5" class="anchor" href="#%E7%94%A8%E4%BA%8E%E5%AD%97%E6%AE%B5"><span class="octicon octicon-link"></span></a>用于字段</h5>
+<h4>
+<a name="%E7%94%A8%E4%BA%8E%E5%AD%97%E6%AE%B5" class="anchor" href="#%E7%94%A8%E4%BA%8E%E5%AD%97%E6%AE%B5"><span class="octicon octicon-link"></span></a>用于字段</h4>
 
 <p>"ExtractBy"可用于类以及字段。用于字段时，定义了字段抽取的规则。抽取的规则默认使用<a href="http://www.w3school.com.cn/xpath/"><strong>XPath</strong></a>，也可以选择使用CSS Selector、正则表达式(通过设置type)。</p>
 
 <p>ExtractBy还有几个扩展属性。**multi**表示是否抽取列表，当然，设置为multi时，你需要一个List字段去容纳它。**notnull**则表示，此字段不允许为null，若为null则放弃整个对象。</p>
 </li>
 <li>
-<h5>
-<a name="%E7%94%A8%E4%BA%8E%E7%B1%BB" class="anchor" href="#%E7%94%A8%E4%BA%8E%E7%B1%BB"><span class="octicon octicon-link"></span></a>用于类</h5>
+<h4>
+<a name="%E7%94%A8%E4%BA%8E%E7%B1%BB" class="anchor" href="#%E7%94%A8%E4%BA%8E%E7%B1%BB"><span class="octicon octicon-link"></span></a>用于类</h4>
 
 <p>"ExtractBy"用于类时，则限定了字段抽取的区域。用于类时仍支持multi，multi则表示一个页面可以抽取到多个对象。</p>
 </li>
 <li>
-<h5>
-<a name="extractbyraw--extractbyurl" class="anchor" href="#extractbyraw--extractbyurl"><span class="octicon octicon-link"></span></a>ExtractByRaw &amp; ExtractByUrl</h5>
+<h4>
+<a name="extractbyraw--extractbyurl" class="anchor" href="#extractbyraw--extractbyurl"><span class="octicon octicon-link"></span></a>ExtractByRaw &amp; ExtractByUrl</h4>
 
 <p>在类使用"ExtractBy"修饰后，字段的"ExtractBy"使用的是其抽取的结果，如果仍然想要抽取原HTML，可以使用"ExtractByRaw"。与此类似的还有"ExtractByUrl"，表示从URL中抽取信息。ExtractByUrl只支持正则表达式。</p>
 </li>
 <li>
-<h5>
-<a name="extractby2-extractby3" class="anchor" href="#extractby2-extractby3"><span class="octicon octicon-link"></span></a>ExtractBy2 ExtractBy3</h5>
+<h4>
+<a name="extractby2-extractby3" class="anchor" href="#extractby2-extractby3"><span class="octicon octicon-link"></span></a>ExtractBy2 ExtractBy3</h4>
 
 <p>"ExtractBy"、"ExtractByRaw"支持链式抽取，通过增加注解"ExtractBy2"、"ExtractBy3"实现。</p>
 </li>
