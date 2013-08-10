@@ -467,7 +467,8 @@ public class OschinaBlog {
 <h4>
 <a name="pagemodelpipeline" class="anchor" href="#pagemodelpipeline"><span class="octicon octicon-link"></span></a>PageModelPipeline</h4>
 
-<p>可以通过定义PageModelPipeline来选择结果输出方式。这里new ConsolePageModelPipeline()是PageModelPipeline的一个实现，会将结果输出到控制台。</p>
+<p>可以通过定义PageModelPipeline来选择结果输出方式。这里new ConsolePageModelPipeline()是PageModelPipeline的一个实现，会将结果输出到控制台。
+PageModelPipeline还有一个实现**JsonFilePageModelPipeline**，可以将对象持久化以JSON格式输出，并持久化到文件。JsonFilePageModelPipeline默认使用对象的MD5值作为文件名，你可以在Model中实现HasKey接口，指定输出的文件名。</p>
 </li>
 <li>
 <h4>
